@@ -19,9 +19,11 @@ The goal of this project is to detect lane using images taken from front-camera.
 [image3]: ./examples/binary_combo_example.png "Binary Example"
 [image4]: ./examples/warped.png "Warp Example"
 [image5]: ./examples/color_fit_lines.png "Fit Visual"
-[image6]: ./examples/example_output.png "Output"
-[video1]: ./project_video.mp4 "Video"
- 
+[image6]: ./examples/radcurve.png "Calculate Radius of Curvature"
+[image7]: ./examples/example_output.png "Output"
+[video1]: ./result.mp4 "Video 1"
+[video2]: ./challenge_result.mp4 "Video 2"
+
 
 ---
 
@@ -61,32 +63,33 @@ I verified that my perspective transform was working as expected by drawing the 
 
 #### 4. Identify lane-line pixels and fit their positions with a polynomial
 
-I used small sliding windows to detect pixels for the right and left lane, then fit those pixels with a polynomial. The number of sliding windows was 18 and the window margin was 30. A lane class was constructed for each lane to perform sanity checks. The goal was to make sure that the polynomials are smooth and precise as much as possible.
+I used small sliding windows to detect pixels for the right and left lane, then fit those pixels with a polynomial. The number of sliding windows was 18 and the window margin was 30. A lane class was constructed for each lane to perform sanity checks. The goal was to make sure that the polynomials are smooth and matches the lane line as much as possible.
 
 ![alt text][image5]
 
-#### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
+#### 5. Calculate the radius of curvature of the lane and the position of the vehicle with respect to center.
 
-I did this in lines # through # in my code in `my_other_file.py`
-
-#### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
-
-I implemented this step in lines # through # in my code in `yet_another_file.py` in the function `map_lane()`.  Here is an example of my result on a test image:
-
+In function `fill_lane()`, I calculated the bottom left point and the bottom right point, and took the midpoint as the center of the lane. From that I calculated the difference in distance between the lane center and the image center.
+I calculated the radius of curvature of the lane based on the following formula
 ![alt text][image6]
+
+#### 6. Provide an example image of the result plotted back down onto the road such that the lane area is identified clearly.
+
+In function `process_vid()`, I drew the lane onto the warped blank image, warped the blank back to original image space using inverse perspective matrix (Minv), then combined the result with the original image.
+
+![alt text][image7]
 
 ---
 
 ### Pipeline (video)
 
-#### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
+#### 1. Advanced lane detection videos:
 
-Here's a [link to my video result](./project_video.mp4)
+Here's a [link to my video result](./result.mp4)
 
+And a [link to my challenge video result](./challenge_result.mp4)
 ---
 
 ### Discussion
 
-#### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
-
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+The quality of an image may affect the detection result as demonstrated by the 2 videos above. When a vehicle drives under bad condition such as snow storm, shades, rain, or extreme lightness... it can hard to detect the lanes. Sanity check using Lane class may help reduce some error in lane detection but cannot cover all extreme cases. 
