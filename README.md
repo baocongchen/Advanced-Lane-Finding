@@ -44,7 +44,7 @@ Due to radial distortion, straight lines will appear curved. Its effect is more 
 I extracted saturation channel from HSL image, and red channel from BGR image. Then, I use `cv2.GaussianBlur` and horizontal `cv2.Sobel` filter, which is more resistant to noise, to find the edges.  All the outputs were then combined to enhance the detection power. Here's an example of my output for this step.
 ![alt text][image3]
 
-#### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
+#### 3. Perform perspective transformation
 
 The code for my perspective transform includes a function called `persp_trans()` in the IPython notebook.  The `persp_trans()` function takes as inputs an undistorted image (`undist_img`) with the hardcoded source (`src`) and destination (`dst`) points.  I chose the hardcode the source and destination points in the following manner:
 
@@ -59,9 +59,9 @@ I verified that my perspective transform was working as expected by drawing the 
 
 ![alt text][image4]
 
-#### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
+#### 4. Identify lane-line pixels and fit their positions with a polynomial
 
-Then I did some other stuff and fit my lane lines with a 2nd order polynomial kinda like this:
+I used small sliding windows to detect pixels for the right and left lane, then fit those pixels with a polynomial. The number of sliding windows was 18 and the window margin was 30. A lane class was constructed for each lane to perform sanity checks. The goal was to make sure that the polynomials are smooth and precise as much as possible.
 
 ![alt text][image5]
 
