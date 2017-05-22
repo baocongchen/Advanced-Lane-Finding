@@ -88,6 +88,7 @@ In function `process_vid()`, I drew the lane onto the warped blank image, warped
 Here's a [link to my video result](./result.mp4)
 
 And a [link to my challenge video result](./challenge_result.mp4)
+
 ---
 
 ### Discussion
